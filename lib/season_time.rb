@@ -1,6 +1,5 @@
 class SeasonTime
-  def initialize(result)
-    season_phase(result)
+  def initialize
   end
 
   def season_phase(result)
