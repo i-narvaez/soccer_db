@@ -1,7 +1,9 @@
+require 'levenshtein'
 namespace :matches do
   desc 'calculates matches data'
   task data: :environment do
     seasons = ["00-01", "01-02", "02-03", "03-04", "04-05", "05-06", "06-07", "07-08", "08-09", "09-10", "10-11", "11-12", "12-13", "13-14"]
+    teams = Team.all.pluck(:name)
     Result.where.not(season: seasons).order(date: :asc).each do |result|
        attrs = {
          date: result.date,
@@ -19,8 +21,8 @@ namespace :matches do
        end
        ms = MatchStats.new(result.home_team, result.away_team, date: result.date)
 
-       t = Team.find_by_name(result.home_team).try(:rank_points).to_f
-       t2 = Team.find_by_name(result.away_team).try(:rank_points).to_f
+       t = find_team_rank(teams, result.home_team).try(:rank_points).to_f
+       t2 = find_team_rank(teams, result.away_team).try(:rank_points).to_f
        attrs.merge!(ms.data)
        attrs[:home_rank] = t
        attrs[:away_rank] = t2
@@ -32,4 +34,9 @@ namespace :matches do
        end
     end
   end
+
+  def find_team_rank(teams, team_name)
+    teams.find { |t| Levenshtein.distance(t, team_name) < 5 }
+  end
+
 end

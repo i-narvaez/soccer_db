@@ -11,6 +11,8 @@ gem 'slim'
 gem 'will_paginate', '~> 3.1.0'
 gem 'bootstrap', git: 'https://github.com/twbs/bootstrap-rubygem'
 gem 'jquery-rails'
+gem 'levenshtein-ffi', :require => 'levenshtein'
+
 
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '~> 5.1.1'
