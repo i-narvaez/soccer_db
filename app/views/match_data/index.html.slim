@@ -1,0 +1,79 @@
+.container
+  h3.text-center Matches
+  = form_tag match_data_path, method: :get 
+    .row style="font-size: small"
+      .col
+        .row
+          label.col-2 Team:
+          = select_tag :team, options_for_select(@options, params[:team]), class: 'selectize col-7', include_blank: true
+      .col style="font-size: small"
+    .row style="font-size: small"
+      .col
+        .row
+          label.col-4 Home Team:
+          = select_tag :home, options_for_select(@options, params[:home]), class: 'selectize col-8', include_blank: true
+      .col
+        .row
+          label.col-4 Away Team:
+          = select_tag :away, options_for_select(@options, params[:away]), class: 'selectize col-8', include_blank: true
+      input.btn.btn-primary.btn-sm.pull-right type="submit" value="Search"
+  .row style="font-size: small"
+    .card.col
+      .row
+        .col
+          dl
+            dt Match Streak
+            dd Home team points gained vs away team in last 6 matches
+            dt Home Efectiveness
+            dd Points % gained in last 6 matches by home team in home
+            dt Home Avg Score
+            dd Average goals scored by home team in last 6 matches
+            dt Home Streak
+            dd Points % gained in last 6 matches by home team
+            dt Home Rank
+            dd Home Team Global Rank at match date
+        .col
+          dl
+            dt Away Effectiveness
+            dd Points % gained in last 6 matches for away team as away
+            dt Away Avg Score
+            dd Average goals scored by away team in last 6 matches
+            dt Away Streak
+            dd Points % gained in last 6 matches by away team
+            dt Away Rank
+            dd Away Team Global Rank at match date
+  .row style="margin-top: 10px"
+    .col-xs-12 style="font-size: small"
+      table.table.table-bordered.table-stripped.table-condensed
+        thead.thead-inverse
+          th Date
+          th Home Team
+          th Away Team
+          th Score
+          th Match Streak
+          th Home Efectiveness
+          th Home Avg Score
+          th Home Streak
+          th Home Rank
+          th Away Efectiveness
+          th Away Avg Score
+          th Away Streak
+          th Away Rank
+        tbody.text-center
+          - @matches.each do |match|
+            tr
+              td.text-left = match.date.strftime('%d/%m/%y')
+              td.text-left = match.home_team
+              td.text-left = match.away_team
+              td #{match.home_score} - #{match.away_score}
+              td = match.match_streak
+              td = match.home_effectiveness.round(2)
+              td = match.home_avg_goals.round(2)
+              td = match.home_general_streak.round(2)
+              td = match.home_rank
+              td = match.away_effectiveness.round(2)
+              td = match.away_avg_goals.round(2)
+              td = match.away_general_streak.round(2)
+              td = match.away_rank
+      = will_paginate @matches
+

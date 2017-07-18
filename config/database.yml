@@ -1,0 +1,14 @@
+default: &default
+  adapter: postgresql
+  encoding: unicode
+  pool: 60
+
+development:
+  <<: *default
+  database: soccer_development
+
+  # The specified database role being used to connect to postgres.
+test:
+  <<: *default
+  database: soccer_test
+
