@@ -47,6 +47,7 @@
       table.table.table-bordered.table-stripped.table-condensed
         thead.thead-inverse
           th Date
+          th Season Time
           th Home Team
           th Away Team
           th Score
@@ -63,6 +64,7 @@
           - @matches.each do |match|
             tr
               td.text-left = match.date.strftime('%d/%m/%y')
+              td.text-center = match.season_time
               td.text-left = match.home_team
               td.text-left = match.away_team
               td #{match.home_score} - #{match.away_score}
